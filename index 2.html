@@ -1,0 +1,850 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:title" content="NutriTrophic Lab">
+<meta property="og:description" content="Insect nutritional ecology, chemical ecology and plant–insect interactions at Universitat Jaume I.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3C21 11 25 16 25 21a9 9 0 0 1-18 0c0-5 4-10 9-18z' fill='%232f6b45'/%3E%3C/svg%3E">
+<title>NutriTrophic Lab</title>
+<meta name="description" content="NutriTrophic Lab at Universitat Jaume I. Insect nutritional ecology, chemical ecology and plant–insect interactions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+img{max-width:100%}
+[hidden]{display:none!important}
+/* Layout: lab home + a separate PI view (tab in the nav); droplets along a leaf margin as the single recurring motif */
+:root{
+  --bg:#f3f6f2;
+  --surface:#ffffff;
+  --ink:#16261d;
+  --muted:#556659;
+  --line:#d5ddd5;
+  --leaf:#2f6b45;
+  --drop:#7fb6c4;
+  --honey:#b4741a;
+  --todo-bg:#fff4d6; --todo-ink:#6b4a00;
+  --f-display:"Young Serif", Georgia, "Times New Roman", serif;
+  --f-body:"Source Sans 3", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1712;--surface:#16211a;--ink:#e3ece4;--muted:#9fb1a3;--line:#2a3a2f;
+  --leaf:#7cc495;--drop:#8cc6d4;--honey:#e0a54a;--todo-bg:#3a2f12;--todo-ink:#f3d79a;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1712;--surface:#16211a;--ink:#e3ece4;--muted:#9fb1a3;--line:#2a3a2f;
+  --leaf:#7cc495;--drop:#8cc6d4;--honey:#e0a54a;--todo-bg:#3a2f12;--todo-ink:#f3d79a;color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:1.0625rem;line-height:1.6;margin:0}
+a{color:var(--leaf);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--leaf);outline-offset:3px;border-radius:2px}
+.wrap{max-width:68rem;margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;line-height:1.15;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.6rem,3vw,2.1rem)}
+h3{font-size:1.2rem}
+p{margin:0}
+.label{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.todo{background:var(--todo-bg);color:var(--todo-ink);padding:0 .3em;border-radius:3px;font-size:.92em}
+.sp{font-style:italic}
+
+/* nav */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem 1.5rem;padding-block:.8rem}
+.brand{font-family:var(--f-display);font-size:1.1rem;color:var(--ink);text-decoration:none}
+nav ul{display:flex;flex-wrap:wrap;align-items:center;gap:.25rem 1.1rem;list-style:none;margin:0;padding:0}
+nav a{color:var(--muted);text-decoration:none;font-size:.95rem}
+nav a:hover{color:var(--leaf)}
+nav a.pi-tab{color:var(--ink);border:1px solid var(--line);background:var(--surface);padding:.2rem .75rem;border-radius:999px}
+nav a.pi-tab:hover,nav a.pi-tab[aria-current="page"]{border-color:var(--leaf);color:var(--leaf)}
+
+/* hero */
+.hero{padding-block:clamp(2.5rem,7vw,5rem) clamp(2.5rem,6vw,4rem)}
+.hero h1{font-size:clamp(2.6rem,7vw,4.6rem);margin-top:.7rem}
+.hero .tag{font-size:clamp(1.1rem,2.2vw,1.35rem);color:var(--muted);margin-top:.6rem}
+.hero .summary{max-width:62ch;margin-top:1.6rem;font-size:1.1rem}
+.pillars-mini{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.4rem;list-style:none;padding:0}
+.pillars-mini a{display:inline-block;font-family:var(--f-mono);font-size:.8rem;text-decoration:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:.35rem .75rem;border-radius:999px}
+.pillars-mini a:hover{border-color:var(--leaf);color:var(--leaf)}
+.pillars-mini b{color:var(--leaf);font-weight:500;margin-right:.35rem}
+.pillars-mini li.to-bc a{border-color:var(--honey)}
+.pillars-mini li.to-bc a:hover{color:var(--honey)}
+.pillars-mini li.to-bc b{color:var(--honey)}
+
+
+/* sections */
+section{padding-block:clamp(2.5rem,6vw,4.5rem);border-top:1px solid var(--line)}
+.sec-head{display:grid;grid-template-columns:minmax(0,15rem) minmax(0,1fr);gap:1rem 3rem;align-items:start}
+.sec-head .intro{max-width:62ch;color:var(--muted);margin-top:.8rem}
+.sec-body{margin-top:2rem;display:grid;grid-template-columns:minmax(0,15rem) minmax(0,1fr);gap:1rem 3rem}
+.sec-body>.content{grid-column:2;min-width:0}
+
+/* pillars */
+.lines{display:grid;gap:2.4rem}
+.line{display:grid;grid-template-columns:2.4rem minmax(0,1fr) minmax(0,15rem);gap:1rem 1.6rem;scroll-margin-top:5rem}
+.pfig{grid-column:3;grid-row:1;margin:0;align-self:start}
+.pfig img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:2px;background:var(--surface)}
+.line>.subpillar{grid-column:2 / -1;margin-top:.4rem}
+.figs.bc-figs{grid-template-columns:repeat(4,minmax(0,1fr));gap:.6rem;margin-top:1.2rem}
+.line .num{font-family:var(--f-mono);font-size:.8rem;color:var(--leaf);border:1px solid var(--leaf);border-radius:50%;width:2.2rem;height:2.2rem;display:flex;align-items:center;justify-content:center}
+.line p{margin-top:.5rem;max-width:62ch}
+.line .key{margin-top:.6rem;font-size:.92rem;color:var(--muted)}
+/* biological control: its own tinted band after Research */
+.subpillar{margin-top:1.8rem;padding:1.3rem 1.4rem 1.5rem;background:color-mix(in srgb,var(--honey) 8%,var(--surface));border-radius:2px;scroll-margin-top:5rem}
+.subpillar-head{display:flex;align-items:center;gap:.8rem}
+.line .subpillar .num{border-color:var(--honey);color:var(--honey);font-size:.68rem}
+.subpillar h4{font-family:var(--f-display);font-weight:400;font-size:1.2rem;line-height:1.15;margin:0}
+.subpillar>p{margin-top:.8rem;max-width:62ch}
+.subpillar .bc-grid{margin-top:1.4rem;gap:1.5rem 2rem}
+.bc h5{font-family:var(--f-display);font-weight:400;font-size:1.05rem;line-height:1.2;margin:.35rem 0 0}
+.bc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2rem 2.5rem}
+.bc{border-top:2px solid var(--honey);padding-top:1rem;min-width:0}
+.bc:last-child:nth-child(odd){grid-column:1/-1}
+.bc p{margin-top:.5rem;max-width:62ch}
+.bc .partners{margin-top:.6rem;font-size:.9rem;color:var(--muted)}
+
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));gap:1rem;margin-top:2.5rem}
+img.fig{display:block;width:100%;height:auto;object-fit:cover;border:0;padding:0}
+.fig{aspect-ratio:4/3;max-width:100%;background:var(--surface);border:1px dashed var(--line);display:flex;align-items:flex-end;padding:.8rem;border-radius:2px;
+  background-image:radial-gradient(circle at 70% 35%,color-mix(in srgb,var(--drop) 35%,transparent) 0 18%,transparent 19%)}
+.fig span{font-size:.85rem}
+
+/* pubs */
+.pubs{list-style:none;margin:0;padding:0;display:grid;gap:1.4rem}
+.pub{display:block}
+.pub .yr{font-family:var(--f-mono);font-size:.85rem;color:var(--leaf);padding-top:.15rem;font-variant-numeric:tabular-nums}
+.pub .t{font-weight:600;color:var(--ink);text-decoration:none}
+.pub a.t:hover{color:var(--leaf);text-decoration:underline}
+details.year{border-top:1px solid var(--line)}
+details.year:last-of-type{border-bottom:1px solid var(--line)}
+details.year summary{display:flex;align-items:baseline;gap:1rem;padding-block:.9rem;cursor:pointer;list-style:none}
+details.year summary::-webkit-details-marker{display:none}
+details.year summary .y{font-family:var(--f-display);font-size:1.3rem}
+details.year summary .n{font-family:var(--f-mono);font-size:.75rem;color:var(--muted)}
+details.year summary::after{content:"+";margin-left:auto;font-family:var(--f-mono);color:var(--leaf)}
+details.year[open] summary::after{content:"–"}
+details.year .pubs{padding-bottom:1.5rem}
+.studies{margin-top:1rem}
+.studies ul{list-style:none;margin:.5rem 0 0;padding:0;display:grid;gap:.6rem}
+.studies li{font-size:.95rem;line-height:1.45;padding-left:.95rem;position:relative}
+.studies li::before{content:"";position:absolute;left:0;top:.55em;width:5px;height:5px;border-radius:50%;background:var(--drop)}
+.studies a{color:var(--ink);text-decoration-color:color-mix(in srgb,var(--leaf) 45%,transparent)}
+.studies a:hover{color:var(--leaf)}
+.studies li span{display:block;color:var(--muted);font-size:.85rem}
+.pub .a,.pub .j{font-size:.95rem;color:var(--muted)}
+.pub .j i{color:var(--ink)}
+.more{margin-top:2rem}
+
+/* team */
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:1.5rem}
+.person .ph{width:4.5rem;height:4.5rem;border-radius:50%;background:color-mix(in srgb,var(--leaf) 18%,var(--surface));border:1px solid var(--line);margin-bottom:.7rem;display:flex;align-items:center;justify-content:center;object-fit:cover;font-family:var(--f-mono);font-size:.9rem;color:var(--leaf)}
+.person h3{font-size:1.05rem}
+.person h3 a{color:inherit}
+.person p{margin-top:.2rem;font-size:.95rem;color:var(--muted)}
+.insectary{margin-top:2.5rem;background:var(--surface);border:1px solid var(--line);padding:1.3rem 1.4rem;border-radius:2px}
+.insectary ul{list-style:none;padding:0;margin:.8rem 0 0;display:flex;flex-wrap:wrap;gap:.5rem}
+.insectary li{font-size:.95rem;font-style:italic;border:1px solid var(--line);padding:.2rem .65rem;border-radius:999px}
+
+/* projects, news and talks share one row pattern: meta column + content */
+.rows{list-style:none;margin:0;padding:0;display:grid;gap:1.5rem}
+.row{display:grid;grid-template-columns:6.5rem minmax(0,1fr);gap:1rem}
+.row .date{font-family:var(--f-mono);font-size:.8rem;color:var(--leaf);padding-top:.2rem;font-variant-numeric:tabular-nums}
+.row .src{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.row .t{font-weight:600;margin-top:.15rem}
+.row p{font-size:.95rem;color:var(--muted);margin-top:.25rem;max-width:62ch}
+.role{display:inline-block;margin-top:.35rem;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.05em;border:1px solid var(--line);border-radius:999px;padding:.05rem .5rem;color:var(--muted)}
+.sub{margin-top:2.6rem;margin-bottom:1rem}
+.sub:first-child{margin-top:0}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1.5rem 2.5rem}
+.cols ul{margin:.6rem 0 0;padding-left:1.1rem}
+.cols li{margin-bottom:.35rem}
+
+.contact-card{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.5rem}
+.addr{font-style:normal}
+.copy{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-top:.4rem}
+.copy code{font-family:var(--f-mono);font-size:.9rem;user-select:all}
+.copy button{font:inherit;font-size:.8rem;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:.25rem .7rem;border-radius:999px;cursor:pointer}
+.copy button:hover{border-color:var(--leaf)}
+
+/* PI view */
+.pi{padding-block:clamp(2.5rem,6vw,4rem)}
+.pi-head{display:flex;flex-wrap:wrap;align-items:center;gap:1.5rem 2rem}
+.pi-photo{width:9rem;height:9rem;max-width:100%;flex:none;border-radius:50%;border:1px solid var(--line);
+  background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--drop) 40%,transparent),transparent 60%),color-mix(in srgb,var(--leaf) 16%,var(--surface));
+  display:flex;align-items:center;justify-content:center;text-align:center;object-fit:cover;font-family:var(--f-display);font-size:2.2rem;color:var(--leaf)}
+.pi-head>div{min-width:0}
+.pi h1{font-size:clamp(2rem,5vw,3rem)}
+.pi .role{color:var(--muted);margin-top:.4rem}
+.links{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.links a{font-family:var(--f-mono);font-size:.8rem;text-decoration:none;border:1px solid var(--line);padding:.35rem .7rem;border-radius:999px;color:var(--ink);background:var(--surface)}
+.links a:hover{border-color:var(--leaf);color:var(--leaf)}
+.pi-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:2rem 3.5rem;margin-top:2.8rem}
+.bio p{max-width:62ch}
+.bio p+p{margin-top:1rem}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:2.2rem;max-width:40rem}
+.metrics div{background:var(--surface);padding:.9rem 1rem}
+.metrics b{display:block;font-family:var(--f-display);font-weight:400;font-size:1.6rem;font-variant-numeric:tabular-nums}
+.metrics span{font-size:.85rem;color:var(--muted)}
+.metrics-note{font-size:.8rem;color:var(--muted);margin-top:.5rem}
+.timeline{list-style:none;margin:.9rem 0 0;padding:0;border-left:1px solid var(--line)}
+.timeline li{position:relative;padding:0 0 1.2rem 1.4rem}
+.timeline li::before{content:"";position:absolute;left:-5px;top:.55rem;width:9px;height:9px;border-radius:50%;background:var(--drop)}
+.timeline li:first-child::before{background:var(--leaf)}
+.timeline .when{font-family:var(--f-mono);font-size:.8rem;color:var(--muted)}
+.timeline small{display:block;color:var(--muted);font-size:.9rem}
+.back{display:inline-block;margin-top:2.5rem}
+
+/* view switching (JS adds .js to body; without JS both views show) */
+body.js.view-pi #home{display:none}
+body.js:not(.view-pi) #pi{display:none}
+
+footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);font-size:.85rem}
+
+@media (max-width:1000px){
+  .line{grid-template-columns:2.4rem minmax(0,1fr)}
+  .pfig{grid-column:2;grid-row:auto;max-width:22rem}
+}
+@media (max-width:760px){
+  .line>.subpillar{grid-column:1 / -1}
+  .figs.bc-figs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sec-head,.sec-body,.pi-grid,.bc-grid{grid-template-columns:1fr}
+  .sec-body>.content{grid-column:1}
+  .figs{grid-template-columns:1fr}
+  .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">NutriTrophic Lab</a>
+    <nav aria-label="Sections"><ul>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#news">News</a></li>
+      <li><a href="#join">Join us</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a class="pi-tab" href="#pi">Pablo Urbaneja-Bernat</a></li>
+    </ul></nav>
+  </div>
+</header>
+
+<main>
+<div id="home">
+  <div class="wrap hero" id="top">
+    <div class="label">Universitat Jaume I · Castelló, Spain</div>
+    <h1>NutriTrophic Lab</h1>
+    <ul class="pillars-mini" aria-label="Research pillars">
+      <li><a href="#p1"><b>1</b>Insect nutritional ecology</a></li>
+      <li><a href="#p2"><b>2</b>Chemical ecology</a></li>
+      <li><a href="#p3"><b>3</b>Plant–insect interactions</a></li>
+      <li class="to-bc"><a href="#biocontrol"><b aria-hidden="true">→</b>Biological control</a></li>
+    </ul>
+    <p class="summary">We ask how the food insects find in nature shapes their performance and, through it, the interactions between plants, herbivores and natural enemies. Sugar supplements, honeydew and plant guttation all turn out to be more than fuel. The three pillars feed into one another, and together they give us new ways to support natural enemies and improve biological control.</p>
+  </div>
+
+  <section id="research">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="label">Research</div>
+        <div>
+          <h2>Three pillars, one question</h2>
+          <p class="intro">Each line grew out of the one before. Together they let us follow a food source from the plant that produces it to the insects that eat it, and on to the signals that pass between them.</p>
+        </div>
+      </div>
+      <div class="sec-body">
+        <div class="content">
+          <div class="lines">
+            <div class="line" id="p1">
+              <span class="num">1</span>
+              <div>
+                <h3>Insect nutritional ecology</h3>
+                <p>Our work on insect nutrition started with sugar supplements for the predator <span class="sp">Nesidiocoris tenuis</span>, which helped it settle in greenhouse tomato and made it feed less on the crop. Since then we have turned to the foods insects find on plants. Guttation droplets are a nutrient-rich food for herbivores, predators and parasitoids. Honeydew can carry an active plant defence protein that benefits natural enemies, and mealybug honeydew loses value for parasitoids under elevated CO<sub>2</sub> and drought. We also test floral and plant-derived foods for the parasitoids of <span class="sp">Tuta absoluta</span>, and whether pollen can help predatory mites cope with hotter, drier conditions.</p>
+                <p class="key">Systems: tomato, blueberry, citrus</p>
+                <div class="studies">
+                  <div class="label">Key studies</div>
+                  <ul>
+                    <li><a href="https://scholar.google.com/scholar?q=%22Sugar+as+nutritional+supplement+for+the+zoophytophagous+predator+Nesidiocoris+tenuis%22" target="_blank" rel="noopener">Sugar as nutritional supplement for the zoophytophagous predator <i>Nesidiocoris tenuis</i></a><span><i>BioControl</i>, 2013</span></li>
+                    <li><a href="https://doi.org/10.1098/rspb.2020.1080" target="_blank" rel="noopener">Plant guttation provides nutrient-rich food for insects</a><span><i>Proceedings of the Royal Society B</i>, 2020</span></li>
+                    <li><a href="https://doi.org/10.1111/1365-2435.14605" target="_blank" rel="noopener">Not just candy: A herbivore-induced defence-related plant protein in honeydew enhances natural enemy fitness</a><span><i>Functional Ecology</i>, 2024</span></li>
+                    <li><a href="https://scholar.google.com/scholar?q=%22Elevated+CO2+and+Water+Limitation+Alter+the+Primary+Metabolite+Composition+of+Mealybug+Honeydew%2C+Reducing+Parasitoid+Fitness%22" target="_blank" rel="noopener">Elevated CO<sub>2</sub> and Water Limitation Alter the Primary Metabolite Composition of Mealybug Honeydew, Reducing Parasitoid Fitness</a><span><i>Journal of Agricultural and Food Chemistry</i>, 2026</span></li>
+                  </ul>
+                </div>
+              </div>
+              <figure class="pfig"><img class="slot" src="pillar-1.jpg" alt="An insect at a guttation droplet on the tip of a leaf" width="720" height="720" loading="lazy" data-fallback="remove"></figure>
+            </div>
+            <div class="line" id="p2">
+              <span class="num">2</span>
+              <div>
+                <h3>Chemical ecology</h3>
+                <p>Much of our chemical ecology work deals with spotted-wing drosophila in blueberry. Fruit volatiles explain why the fly is drawn more to some blueberries than to others, and leaf volatiles also play a part. Fruit infected by the fungus <span class="sp">Colletotrichum fioriniae</span> has the opposite effect and repels the fly, and we have identified two of the volatiles behind it. In cranberry we looked at how an herbivore-induced plant volatile and colour together shape the insect community, and in the field we tested an attract-and-kill formulation against spotted-wing drosophila.</p>
+                <p class="key">Methods: volatile collection, GC-MS, electroantennography, behavioural bioassays</p>
+                <div class="studies">
+                  <div class="label">Key studies</div>
+                  <ul>
+                    <li><a href="https://scholar.google.com/scholar?q=%22Repellent%2C+oviposition-deterrent%2C+and+insecticidal+activity+of+the+fungal+pathogen+Colletotrichum+fioriniae+on+Drosophila+suzukii+%28Diptera%3A+Drosophilidae%29+in+highbush+blueberries%22" target="_blank" rel="noopener">Repellent, oviposition-deterrent, and insecticidal activity of the fungal pathogen <i>Colletotrichum fioriniae</i> on <i>Drosophila suzukii</i> (Diptera: Drosophilidae) in highbush blueberries</a><span><i>Scientific Reports</i>, 2020</span></li>
+                    <li><a href="https://scholar.google.com/scholar?q=%22Fruit+volatiles+mediate+differential+attraction+of+Drosophila+suzukii+to+wild+and+cultivated+blueberries%22" target="_blank" rel="noopener">Fruit volatiles mediate differential attraction of <i>Drosophila suzukii</i> to wild and cultivated blueberries</a><span><i>Journal of Pest Science</i>, 2021</span></li>
+                    <li><a href="https://scholar.google.com/scholar?q=%22Two+volatiles+from+anthracnose-infected+blueberries+trigger+electrophysiological+and+aversive+behavioral+responses+in+Drosophila+suzukii+%28Diptera%3A+Drosophilidae%29%22" target="_blank" rel="noopener">Two volatiles from anthracnose-infected blueberries trigger electrophysiological and aversive behavioral responses in <i>Drosophila suzukii</i> (Diptera: Drosophilidae)</a><span><i>Journal of Economic Entomology</i>, 2025</span></li>
+                    <li><a href="https://scholar.google.com/scholar?q=%22Role+of+leaf+volatiles+in+spotted-wing+drosophila+%28Diptera%3A+Drosophilidae%29+attraction+to+blueberry+fruits%22" target="_blank" rel="noopener">Role of leaf volatiles in spotted-wing drosophila (Diptera: Drosophilidae) attraction to blueberry fruits</a><span><i>Journal of Insect Science</i>, 2026</span></li>
+                  </ul>
+                </div>
+              </div>
+              <figure class="pfig"><img class="slot" src="pillar-2.jpg" alt="Guttation droplets on young tomato plants in the greenhouse" width="720" height="720" loading="lazy" data-fallback="remove"></figure>
+            </div>
+            <div class="line" id="p3">
+              <span class="num">3</span>
+              <div>
+                <h3>Plant–insect interactions</h3>
+                <p>Plants react to the insects that live on them, and those reactions spread through the food web. Predators that also feed on plants, such as <span class="sp">Nesidiocoris tenuis</span> and <span class="sp">Macrolophus pygmaeus</span>, switch on defences in tomato, in the second case even against root-knot nematodes. Whiteflies can manipulate salicylic and jasmonic acid signalling in ways that weaken parasitoid recruitment, and crop domestication has changed the nutritional content of guttation, with effects higher up the food chain. We have also tested whether elicitors of plant defences can protect blueberries from spotted-wing drosophila, and in citrus we have studied how climate change alters the interactions among predatory mites and their prey. Being based next to plant immunity researchers at UJI lets us look at all of this from the plant's side.</p>
+                <p class="key">Systems: tomato, citrus, blueberry · Pests: <span class="sp">Bemisia tabaci</span>, <span class="sp">Tuta absoluta</span></p>
+                <div class="studies">
+                  <div class="label">Key studies</div>
+                  <ul>
+                    <li><a href="https://scholar.google.com/scholar?q=%22Defensive+plant+responses+induced+by+Nesidiocoris+tenuis+%28Hemiptera%3A+Miridae%29+on+tomato+plants%22" target="_blank" rel="noopener">Defensive plant responses induced by <i>Nesidiocoris tenuis</i> (Hemiptera: Miridae) on tomato plants</a><span><i>Journal of Pest Science</i>, 2015</span></li>
+                    <li><a href="https://doi.org/10.1007/s10886-025-01602-5" target="_blank" rel="noopener">Plant domestication alters the nutritional content of guttation droplets with multi-trophic consequences</a><span><i>Journal of Chemical Ecology</i>, 2025</span></li>
+                    <li><a href="https://scholar.google.com/scholar?q=%22Macrolophus+pygmaeus+induces+systemic+resistance+in+tomato+against+Meloidogyne%22" target="_blank" rel="noopener"><i>Macrolophus pygmaeus</i> induces systemic resistance in tomato against <i>Meloidogyne</i></a><span><i>Scientific Reports</i>, 2025</span></li>
+                    <li><a href="https://scholar.google.com/scholar?q=%22Salicylic+and+jasmonic+acid+crosstalk+manipulation+by+whiteflies+weakens+larval+parasitoid+recruitment%22" target="_blank" rel="noopener">Salicylic and jasmonic acid crosstalk manipulation by whiteflies weakens larval parasitoid recruitment</a><span><i>Journal of Experimental Botany</i>, 2026</span></li>
+                  </ul>
+                </div>
+              </div>
+              <figure class="pfig"><img class="slot" src="pillar-3.jpg" alt="A small wasp visiting a flower" width="720" height="720" loading="lazy" data-fallback="remove"></figure>
+                <div class="subpillar" id="biocontrol">
+                  <div class="subpillar-head"><span class="num">3.1</span><h4>Biological control</h4></div>
+                  <p>Biological control is where our work on what insects eat, what they smell and how plants respond turns into tools for growers, often together with plant health services and biocontrol companies.</p>
+                  <div class="figs bc-figs">
+                    <img class="fig slot" src="biocontrol-1.jpg" alt="A predatory mirid bug next to coloured droplets on a leaf" width="800" height="600" loading="lazy" data-fallback="remove">
+                    <img class="fig slot" src="biocontrol-2.jpg" alt="A parasitoid wasp next to a mealybug" width="800" height="600" loading="lazy" data-fallback="remove">
+                    <img class="fig slot" src="biocontrol-3.jpg" alt="A ladybird on an aphid-infested shoot" width="800" height="600" loading="lazy" data-fallback="remove">
+                    <img class="fig slot" src="biocontrol-4.jpg" alt="An aphid colony on a leaf" width="800" height="600" loading="lazy" data-fallback="remove">
+                  </div>
+                  <div class="bc-grid">
+                    <div class="bc">
+                      <div class="label">Spotted-wing drosophila</div>
+                      <h5><span class="sp">Ganaspis kimorum</span> and <span class="sp">Leptopilina japonica</span></h5>
+                      <p>Classical and augmentative biological control of an invasive fruit pest. We took part in the first releases of <span class="sp">G. kimorum</span> in Catalonia in 2025, and Pablo is now the scientific coordinator of the release programme in the Valencian Community.</p>
+                      <p class="partners">With IRTA and the plant health services of Catalonia and the Valencian Community</p>
+                    </div>
+                    <div class="bc">
+                      <div class="label">Tomato leafminer</div>
+                      <h5><span class="sp">Dolichogenidea gelechiidivoris</span></h5>
+                      <p>A parasitoid of <span class="sp">Tuta absoluta</span> in tomato crops. We have improved the methods to monitor it in the field and to see parasitism inside host larvae, measured the side effects of pesticides used in organic and conventional tomato, and studied how it competes with other parasitoids and which plant-derived foods sustain it.</p>
+                    </div>
+                    <div class="bc">
+                      <div class="label">Food for natural enemies</div>
+                      <h5>Sugars, flowers and artificial diets</h5>
+                      <p>Well-fed natural enemies live longer and control more pests. Sugar supplements help the predator <span class="sp">Nesidiocoris tenuis</span> establish in greenhouse tomato and make it feed less on the crop, and sweet alyssum (<span class="sp">Lobularia maritima</span>) offers a nutrient-rich floral food to parasitoids of <span class="sp">Tuta absoluta</span>. We are now developing artificial diets for natural enemies that can be used in the field.</p>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="publications">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="label">Publications</div>
+        <div>
+          <h2>All publications</h2>
+          <p class="intro">Everything we have published, as listed on Google Scholar. Click a year to open or close it.</p>
+        </div>
+      </div>
+      <div class="sec-body">
+        <div class="content">
+          <details class="year" open>
+            <summary><span class="y">2026</span><span class="n">5 papers</span></summary>
+            <ol class="pubs">
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Salicylic+and+jasmonic+acid+crosstalk+manipulation+by+whiteflies+weakens+larval+parasitoid+recruitment%22" target="_blank" rel="noopener">Salicylic and jasmonic acid crosstalk manipulation by whiteflies weakens larval parasitoid recruitment</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Flors V</div>
+                <div class="j"><i>Journal of Experimental Botany</i> 77(2): 231–233</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Interspecific+competition+between+endo-+and+ectoparasitoids+attacking+Tuta+absoluta%22" target="_blank" rel="noopener">Interspecific competition between endo- and ectoparasitoids attacking <i>Tuta absoluta</i></a>
+                <div class="a">Syropoulou A, Arnó J, <strong>Urbaneja-Bernat P</strong></div>
+                <div class="j"><i>Journal of Pest Science</i> 99(3): 84</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Role+of+leaf+volatiles+in+spotted-wing+drosophila+%28Diptera%3A+Drosophilidae%29+attraction+to+blueberry+fruits%22" target="_blank" rel="noopener">Role of leaf volatiles in spotted-wing drosophila (Diptera: Drosophilidae) attraction to blueberry fruits</a>
+                <div class="a">Cloonan KR, <strong>Urbaneja-Bernat P</strong>, Rering CC, Lanier AM, Ferguson B, Ben-Zvi Y, Rodriguez-Saona C</div>
+                <div class="j"><i>Journal of Insect Science</i> 26(3): ieag053</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Elevated+CO2+and+Water+Limitation+Alter+the+Primary+Metabolite+Composition+of+Mealybug+Honeydew%2C+Reducing+Parasitoid+Fitness%22" target="_blank" rel="noopener">Elevated CO<sub>2</sub> and Water Limitation Alter the Primary Metabolite Composition of Mealybug Honeydew, Reducing Parasitoid Fitness</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Schulze-Sylvester M, Syropoulou A, Müller C, Schweiger R, Becker C</div>
+                <div class="j"><i>Journal of Agricultural and Food Chemistry</i> 74(26): 20261–20271</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Visualizing+Dolichogenidea+gelechiidivoris+parasitism+within+Tuta+absoluta+larvae+through+fluorescence+microscopy+in+optically+cleared+samples%22" target="_blank" rel="noopener">Visualizing <i>Dolichogenidea gelechiidivoris</i> parasitism within <i>Tuta absoluta</i> larvae through fluorescence microscopy in optically cleared samples</a>
+                <div class="a">Gualda EJ, Expósito A, Vila-Sala M, <strong>Urbaneja-Bernat P</strong>, Loza-Álvarez P, Riudavets J</div>
+                <div class="j"><i>Scientific Reports</i></div>
+              </li>
+            </ol>
+          </details>
+          <details class="year" open>
+            <summary><span class="y">2025</span><span class="n">9 papers</span></summary>
+            <ol class="pubs">
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Role+of+tomato+plant-derived+food+sources+on+Dolichogenidea+gelechiidivoris%2C+parasitic+wasp+of+Tuta+absoluta%22" target="_blank" rel="noopener">Role of tomato plant-derived food sources on <i>Dolichogenidea gelechiidivoris</i>, parasitic wasp of <i>Tuta absoluta</i></a>
+                <div class="a">Syropoulou A, González-Cabrera J, Arnó J, <strong>Urbaneja-Bernat P</strong></div>
+                <div class="j"><i>Biological Control</i> 202: 105719</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Two+volatiles+from+anthracnose-infected+blueberries+trigger+electrophysiological+and+aversive+behavioral+responses+in+Drosophila+suzukii+%28Diptera%3A+Drosophilidae%29%22" target="_blank" rel="noopener">Two volatiles from anthracnose-infected blueberries trigger electrophysiological and aversive behavioral responses in <i>Drosophila suzukii</i> (Diptera: Drosophilidae)</a>
+                <div class="a">Quadrel A, Ferguson B, Rering CC, <strong>Urbaneja-Bernat P</strong>, Rodriguez-Saona C</div>
+                <div class="j"><i>Journal of Economic Entomology</i> 118(5): 2432–2442</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Macrolophus+pygmaeus+induces+systemic+resistance+in+tomato+against+Meloidogyne%22" target="_blank" rel="noopener"><i>Macrolophus pygmaeus</i> induces systemic resistance in tomato against <i>Meloidogyne</i></a>
+                <div class="a">Expósito A, <strong>Urbaneja-Bernat P</strong>, Boncompte S, Fullana AM, Giné A, Sorribas FJ, Riudavets J</div>
+                <div class="j"><i>Scientific Reports</i> 15(1): 7554</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Insect+detection+by+molecular+diagnostics+in+stored+products%3A+Results+from+a+survey+in+the+agrifood+sector%22" target="_blank" rel="noopener">Insect detection by molecular diagnostics in stored products: Results from a survey in the agrifood sector</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Riudavets J, Marginedas L, Agusti N</div>
+                <div class="j"><i>Journal of Stored Products Research</i> 112: 102616</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://doi.org/10.1007/s10886-025-01602-5" target="_blank" rel="noopener">Plant domestication alters the nutritional content of guttation droplets with multi-trophic consequences</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Salazar-Mendoza P, Tena A, González-Cabrera J, Rodriguez-Saona C</div>
+                <div class="j"><i>Journal of Chemical Ecology</i> 51(3): 51</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Adventively+established+Leptopilina+japonica%3A+a+new+opportunity+for+augmentative+biocontrol+of+Drosophila+suzukii%22" target="_blank" rel="noopener">Adventively established <i>Leptopilina japonica</i>: a new opportunity for augmentative biocontrol of <i>Drosophila suzukii</i></a>
+                <div class="a">Rossi-Stacconi MV, Abram PK, Anfora G, et al. (including <strong>Urbaneja-Bernat P</strong>)</div>
+                <div class="j"><i>Journal of Pest Science</i> 98(4): 1863–1879</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Side+effects+of+pesticides+used+in+organic+and+conventional+tomato+crops+on+Dolichogenidea+gelechiidivoris%2C+a+parasitoid+of+Tuta+absoluta%22" target="_blank" rel="noopener">Side effects of pesticides used in organic and conventional tomato crops on <i>Dolichogenidea gelechiidivoris</i>, a parasitoid of <i>Tuta absoluta</i></a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Riudavets J, Caporusso G, Arnó J</div>
+                <div class="j"><i>Pest Management Science</i> 81(10): 6445–6454</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Improved+techniques+for+monitoring+Dolichogenidea+gelechiidivoris+%28Hymenoptera%3A+Braconidae%29%2C+an+endoparasitoid+of+Tuta+absoluta%2C+in+tomato+fields%22" target="_blank" rel="noopener">Improved techniques for monitoring <i>Dolichogenidea gelechiidivoris</i> (Hymenoptera: Braconidae), an endoparasitoid of <i>Tuta absoluta</i>, in tomato fields</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Vila-Sala M, Arnó J, Riudavets J</div>
+                <div class="j"><i>BioControl</i> 70(5): 585–597</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22The+impact+of+global+change+on+the+intraguild+predation+among+three+predatory+mites+of+Tetranychus+urticae+in+citrus+orchards%22" target="_blank" rel="noopener">The impact of global change on the intraguild predation among three predatory mites of <i>Tetranychus urticae</i> in citrus orchards</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Jaques JA</div>
+                <div class="j"><i>Journal of Pest Science</i> 98(4): 2363–2374</div>
+              </li>
+            </ol>
+          </details>
+          <details class="year" open>
+            <summary><span class="y">2024</span><span class="n">5 papers</span></summary>
+            <ol class="pubs">
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Lobularia+maritima+as+a+nutrient-rich+floral+food+source+for+two+parasitoid+wasps+of+Tuta+absoluta%22" target="_blank" rel="noopener"><i>Lobularia maritima</i> as a nutrient-rich floral food source for two parasitoid wasps of <i>Tuta absoluta</i></a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Riudavets J, Denis Lopez C, Ojeda J, Alomar O, Arnó J</div>
+                <div class="j"><i>Entomologia Generalis</i> 44(2): 339–346</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://doi.org/10.1111/1365-2435.14605" target="_blank" rel="noopener">Not just candy: A herbivore-induced defence-related plant protein in honeydew enhances natural enemy fitness</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Rodriguez-Saona C, Valero ML, González-Cabrera J, Tena A</div>
+                <div class="j"><i>Functional Ecology</i> 38(8): 1822–1834</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Editorial+overview%3A+Parasites%2Fparasitoids%2Fbiological+control+%282024%29%E2%80%94research+advances+on+plant-derived+food+sources+in+biological+control%22" target="_blank" rel="noopener">Editorial overview: Parasites/parasitoids/biological control (2024)—research advances on plant-derived food sources in biological control</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Tena A, Rodriguez-Saona C</div>
+                <div class="j"><i>Current Opinion in Insect Science</i> 65: 101248</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://doi.org/10.1016/j.cois.2023.101140" target="_blank" rel="noopener">An insect’s energy bar: the potential role of plant guttation on biological control</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Tena A, González-Cabrera J, Rodriguez-Saona C</div>
+                <div class="j"><i>Current Opinion in Insect Science</i> 61: 101140</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Elicitors+of+plant+defenses+as+a+standalone+tactic+failed+to+provide+sufficient+protection+to+fruits+against+spotted-wing+drosophila%22" target="_blank" rel="noopener">Elicitors of plant defenses as a standalone tactic failed to provide sufficient protection to fruits against spotted-wing drosophila</a>
+                <div class="a">Quadrel A, <strong>Urbaneja-Bernat P</strong>, Holdcraft R, Rodriguez-Saona C</div>
+                <div class="j"><i>Frontiers in Agronomy</i> 6: 1381342</div>
+              </li>
+            </ol>
+          </details>
+          <details class="year">
+            <summary><span class="y">2023</span><span class="n">2 papers</span></summary>
+            <ol class="pubs">
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Honeydew+of+HLB+vector%2C+Trioza+erytreae%2C+increases+longevity%2C+egg+load+and+parasitism+of+its+main+parasitoid+Tamarixia+dryi%22" target="_blank" rel="noopener">Honeydew of HLB vector, <i>Trioza erytreae</i>, increases longevity, egg load and parasitism of its main parasitoid <i>Tamarixia dryi</i></a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, González-Cabrera J, Hernández-Suárez E, Tena A</div>
+                <div class="j"><i>Biological Control</i> 179: 105169</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Blueberries+infected+with+the+fungal+pathogen+Colletotrichum+fioriniae+release+odors+that+repel+Drosophila+suzukii%22" target="_blank" rel="noopener">Blueberries infected with the fungal pathogen <i>Colletotrichum fioriniae</i> release odors that repel <i>Drosophila suzukii</i></a>
+                <div class="a">Rering CC, Quadrel A, <strong>Urbaneja-Bernat P</strong>, Beck JJ, Ben-Zvi Y, Khodadadi F, Aćimović SG, Rodriguez-Saona C</div>
+                <div class="j"><i>Pest Management Science</i></div>
+              </li>
+            </ol>
+          </details>
+          <details class="year">
+            <summary><span class="y">2022</span><span class="n">2 papers</span></summary>
+            <ol class="pubs">
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Can+pollen+provision+mitigate+competition+interactions+between+three+phytoseiid+predators+of+Tetranychus+urticae+under+future+climate+change+conditions%3F%22" target="_blank" rel="noopener">Can pollen provision mitigate competition interactions between three phytoseiid predators of <i>Tetranychus urticae</i> under future climate change conditions?</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Jaques JA</div>
+                <div class="j"><i>Biological Control</i> 165: 104789</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Field%2C+semi-field+and+greenhouse+testing+of+HOOK+SWD%2C+a+SPLAT-based+attract-and-kill+formulation+to+manage+spotted-wing+drosophila%22" target="_blank" rel="noopener">Field, semi-field and greenhouse testing of HOOK SWD, a SPLAT-based attract-and-kill formulation to manage spotted-wing drosophila</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Holdcraft R, Hernández-Cumplido J, Rhodes EM, Liburd OE, Sial AA, Mafra-Neto A, Rodriguez-Saona C</div>
+                <div class="j"><i>Journal of Applied Entomology</i> 146(10): 1230–1242</div>
+              </li>
+            </ol>
+          </details>
+          <details class="year">
+            <summary><span class="y">2021</span><span class="n">2 papers</span></summary>
+            <ol class="pubs">
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Effect+of+pollen+provision+on+life-history+parameters+of+phytoseiid+predators+under+hot+and+dry+environmental+conditions%22" target="_blank" rel="noopener">Effect of pollen provision on life-history parameters of phytoseiid predators under hot and dry environmental conditions</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Jaques JA</div>
+                <div class="j"><i>Journal of Applied Entomology</i> 145(3): 191–205</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Fruit+volatiles+mediate+differential+attraction+of+Drosophila+suzukii+to+wild+and+cultivated+blueberries%22" target="_blank" rel="noopener">Fruit volatiles mediate differential attraction of <i>Drosophila suzukii</i> to wild and cultivated blueberries</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Cloonan K, Zhang A, Salazar-Mendoza P, Rodriguez-Saona C</div>
+                <div class="j"><i>Journal of Pest Science</i> 94(4): 1249–1263</div>
+              </li>
+            </ol>
+          </details>
+          <details class="year">
+            <summary><span class="y">2020</span><span class="n">6 papers</span></summary>
+            <ol class="pubs">
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Non-crop+habitats+serve+as+a+potential+source+of+spotted-wing+drosophila+%28Diptera%3A+Drosophilidae%29+to+adjacent+cultivated+highbush+blueberries+%28Ericaceae%29%22" target="_blank" rel="noopener">Non-crop habitats serve as a potential source of spotted-wing drosophila (Diptera: Drosophilidae) to adjacent cultivated highbush blueberries (Ericaceae)</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Polk D, Sanchez-Pedraza F, Benrey B, Salamanca J, Rodriguez-Saona C</div>
+                <div class="j"><i>The Canadian Entomologist</i> 152: 474–489</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Behavior+of+Diaphorina+citri%3A+An+investigation+of+the+potential+risk+to+the+most+commonly+used+citrus+rootstock+in+Europe%22" target="_blank" rel="noopener">Behavior of <i>Diaphorina citri</i>: An investigation of the potential risk to the most commonly used citrus rootstock in Europe</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Carrillo D, Jaques JA</div>
+                <div class="j"><i>Entomologia Generalis</i> 40: 79–86</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Preventive+measures+to+limit+the+spread+of+Trioza+erytreae+%28Del+Guercio%29+%28Hemiptera%3A+Triozidae%29+in+mainland+Europe%22" target="_blank" rel="noopener">Preventive measures to limit the spread of <i>Trioza erytreae</i> (Del Guercio) (Hemiptera: Triozidae) in mainland Europe</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Hernández-Suárez E, Tena A, Urbaneja A</div>
+                <div class="j"><i>Journal of Applied Entomology</i> 144(7): 553–559</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://doi.org/10.1098/rspb.2020.1080" target="_blank" rel="noopener">Plant guttation provides nutrient-rich food for insects</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Tena A, González-Cabrera J, Rodriguez-Saona C</div>
+                <div class="j"><i>Proceedings of the Royal Society B</i> 287(1935): 20201080</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Interactive+effects+of+an+herbivore-induced+plant+volatile+and+color+on+an+insect+community+in+cranberry%22" target="_blank" rel="noopener">Interactive effects of an herbivore-induced plant volatile and color on an insect community in cranberry</a>
+                <div class="a">Rodriguez-Saona C, <strong>Urbaneja-Bernat P</strong>, Salamanca J, Garzón-Tovar V</div>
+                <div class="j"><i>Insects</i> 11(8): 524</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Repellent%2C+oviposition-deterrent%2C+and+insecticidal+activity+of+the+fungal+pathogen+Colletotrichum+fioriniae+on+Drosophila+suzukii+%28Diptera%3A+Drosophilidae%29+in+highbush+blueberries%22" target="_blank" rel="noopener">Repellent, oviposition-deterrent, and insecticidal activity of the fungal pathogen <i>Colletotrichum fioriniae</i> on <i>Drosophila suzukii</i> (Diptera: Drosophilidae) in highbush blueberries</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Waller T, Rodriguez-Saona C</div>
+                <div class="j"><i>Scientific Reports</i> 10(1): 14467</div>
+              </li>
+            </ol>
+          </details>
+          <details class="year">
+            <summary><span class="y">2019</span><span class="n">3 papers</span></summary>
+            <ol class="pubs">
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Host+range+testing+of+Tamarixia+dryi+%28Hymenoptera%3A+Eulophidae%29+sourced+from+South+Africa+for+classical+biological+control+of+Trioza+erytreae+%28Hemiptera%3A+Psyllidae%29+in+Europe%22" target="_blank" rel="noopener">Host range testing of <i>Tamarixia dryi</i> (Hymenoptera: Eulophidae) sourced from South Africa for classical biological control of <i>Trioza erytreae</i> (Hemiptera: Psyllidae) in Europe</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Pérez-Rodríguez J, Krüger K, Catalán J, Rizza R, Hernández-Suárez E, Urbaneja A, Tena A</div>
+                <div class="j"><i>Biological Control</i> 135: 110–116</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Can+interactions+among+predators+alter+the+natural+regulation+of+an+herbivore+in+a+climate+change+scenario%3F+The+case+of+Tetranychus+urticae+and+its+predators+in+citrus%22" target="_blank" rel="noopener">Can interactions among predators alter the natural regulation of an herbivore in a climate change scenario? The case of <i>Tetranychus urticae</i> and its predators in citrus</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Ibáñez-Gual V, Montserrat M, Aguilar-Fenollosa E, Jaques JA</div>
+                <div class="j"><i>Journal of Pest Science</i> 92(3): 1149–1164</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Reduced+phytophagy+in+sugar-provisioned+mirids%22" target="_blank" rel="noopener">Reduced phytophagy in sugar-provisioned mirids</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Bru P, González-Cabrera J, Urbaneja A, Tena A</div>
+                <div class="j"><i>Journal of Pest Science</i> 92(3): 1139–1148</div>
+              </li>
+            </ol>
+          </details>
+          <details class="year">
+            <summary><span class="y">2015</span><span class="n">2 papers</span></summary>
+            <ol class="pubs">
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Defensive+plant+responses+induced+by+Nesidiocoris+tenuis+%28Hemiptera%3A+Miridae%29+on+tomato+plants%22" target="_blank" rel="noopener">Defensive plant responses induced by <i>Nesidiocoris tenuis</i> (Hemiptera: Miridae) on tomato plants</a>
+                <div class="a">Pérez-Hedo M, <strong>Urbaneja-Bernat P</strong>, Jaques JA, Flors V, Urbaneja A</div>
+                <div class="j"><i>Journal of Pest Science</i> 88(3): 543–554</div>
+              </li>
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Sugars+as+complementary+alternative+food+for+the+establishment+of+Nesidiocoris+tenuis+in+greenhouse+tomato%22" target="_blank" rel="noopener">Sugars as complementary alternative food for the establishment of <i>Nesidiocoris tenuis</i> in greenhouse tomato</a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Mollá O, Alonso M, Bolckmans K, Urbaneja A, Tena A</div>
+                <div class="j"><i>Journal of Applied Entomology</i> 139(3): 161–167</div>
+              </li>
+            </ol>
+          </details>
+          <details class="year">
+            <summary><span class="y">2013</span><span class="n">1 paper</span></summary>
+            <ol class="pubs">
+              <li class="pub">
+                <a class="t" href="https://scholar.google.com/scholar?q=%22Sugar+as+nutritional+supplement+for+the+zoophytophagous+predator+Nesidiocoris+tenuis%22" target="_blank" rel="noopener">Sugar as nutritional supplement for the zoophytophagous predator <i>Nesidiocoris tenuis</i></a>
+                <div class="a"><strong>Urbaneja-Bernat P</strong>, Alonso M, Tena A, Bolckmans K, Urbaneja A</div>
+                <div class="j"><i>BioControl</i> 58(1): 57–64</div>
+              </li>
+            </ol>
+          </details>
+          <p class="more"><a href="https://scholar.google.com/citations?user=S5N-G8EAAAAJ" target="_blank" rel="noopener">Google Scholar profile</a> · <a href="https://portalcientific.uji.es/investigadores/2223169/publicaciones" target="_blank" rel="noopener">UJI research portal</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="team">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="label">Team</div>
+        <div><h2>The team</h2>
+        <p class="intro">A small team in the Department of Biology, Biochemistry and Natural Sciences, working across the lab, the insectary and the greenhouse.</p></div>
+      </div>
+      <div class="sec-body">
+        <div class="content">
+          <div class="team">
+            <div class="person"><img class="ph slot" src="pablo.jpg" alt="Pablo Urbaneja-Bernat" data-initials="PU"><h3><a href="#pi">Pablo Urbaneja-Bernat</a></h3><p>Principal investigator</p></div>
+            <div class="person"><img class="ph slot" src="angeliki.jpg" alt="Angeliki Syropoulou" data-initials="AS"><h3>Angeliki Syropoulou</h3><p>Postdoctoral researcher</p></div>
+            <div class="person"><img class="ph slot" src="karla.jpg" alt="Karla Reséndiz" data-initials="KR"><h3>Karla Reséndiz</h3><p>PhD student</p></div>
+            <div class="person"><img class="ph slot" src="eva.jpg" alt="Eva Cañizares" data-initials="EC"><h3>Eva Cañizares</h3><p>Laboratory technician</p></div>
+          </div>
+          <div class="insectary">
+            <div class="label">Reared in our insectary</div>
+            <ul>
+              <li>Tuta absoluta</li>
+              <li>Dolichogenidea gelechiidivoris</li>
+              <li>Bemisia tabaci</li>
+              <li>Spodoptera exigua</li>
+              <li>Plutella xylostella</li>
+            </ul>
+          </div>
+          <div class="cols" style="margin-top:2.5rem">
+            <div>
+              <div class="label">We work with</div>
+              <ul>
+                <li>Alejandro Tena, IVIA</li>
+                <li>Víctor Flors, Universitat Jaume I</li>
+                <li>César Rodríguez-Saona, Rutgers University</li>
+                <li>Betty Benrey, University of Neuchâtel</li>
+                <li>Antonio Cusumano, University of Palermo</li>
+                <li>Kris Wyckhuys</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="news">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="label">News &amp; outreach</div>
+        <div>
+          <h2>Our research beyond the journals</h2>
+          <p class="intro">Press coverage of our research, outreach talks and other news from the team.</p>
+        </div>
+      </div>
+      <div class="sec-body">
+        <div class="content">
+          <!-- To add a news item, copy one <li class="row"> block and place it at the top of the list -->
+          <ol class="rows">
+            <li class="row">
+              <span class="date">May 2026</span>
+              <div>
+                <div class="src">Ciència UJI TV · Pint of Science</div>
+                <div class="t"><a href="https://www.uji.es/com/investigacio/arxiu/ciencia-uji-tv/2026/5/pint-of-science-insectes-i-planeta/" target="_blank" rel="noopener">Si els insectes mengen bé, el planeta també</a></div>
+                <p>Video of Pablo's Pint of Science talk in Castelló on how diet shapes the health and behaviour of insects, and why well-fed natural enemies mean fewer pesticides.</p>
+              </div>
+            </li>
+            <li class="row">
+              <span class="date">May 2026</span>
+              <div>
+                <div class="src">Phytoma</div>
+                <div class="t"><a href="https://phytoma.com/noticias/la-comunidad-valenciana-prepara-las-sueltas-del-parasitoide-de-drosophila-suzukii" target="_blank" rel="noopener">La Comunidad Valenciana prepara las sueltas del parasitoide de <span class="sp">Drosophila suzukii</span></a></div>
+                <p>The Valencian plant health service and Universitat Jaume I prepare experimental releases of <span class="sp">Ganaspis kimorum</span> in cherry-growing areas of Castellón and Alicante, with Pablo as scientific coordinator of the programme.</p>
+              </div>
+            </li>
+            <li class="row">
+              <span class="date">Sep 2025</span>
+              <div>
+                <div class="src">Phytoma</div>
+                <div class="t"><a href="https://phytoma.com/noticias/noticias-de-actualidad/cataluna-inicia-las-sueltas-de-un-parasitoide-de-drosophila-suzukii" target="_blank" rel="noopener">Cataluña inicia las sueltas de un parasitoide de <span class="sp">Drosophila suzukii</span></a></div>
+                <p>First releases of <span class="sp">Ganaspis kimorum</span> in Catalonia to control spotted-wing drosophila, in a programme led by IRTA in which Pablo took part.</p>
+              </div>
+            </li>
+            <li class="row">
+              <span class="date">Dec 2024</span>
+              <div>
+                <div class="src">Functional Ecologists blog</div>
+                <div class="t"><a href="https://functionalecologists.com/2024/12/03/pablo-urbaneja-bernat-a-herbivore-induced-defense-related-plant-protein-in-honeydew-enhances-natural-enemy-fitness/" target="_blank" rel="noopener">A plant defence protein in honeydew that helps natural enemies</a></div>
+                <p>Plain-language summary of our <span class="sp">Functional Ecology</span> paper on why honeydew is more than sugar.</p>
+              </div>
+            </li>
+            <li class="row">
+              <span class="date">Sep 2020</span>
+              <div>
+                <div class="src">Universitat de València · RUVID · Agronews · Sci.News · APEVC</div>
+                <div class="t"><a href="https://www.uv.es/uvweb/university-institute-structure-biotechnology-biomedicine-BIOTECMED/en/news/drops-produced-plants-night-are-rich-nutrients-beneficial-insects-1285923342500/Novetat.html?id=1286144372965" target="_blank" rel="noopener">The drops produced by plants during the night are rich in nutrients for beneficial insects</a></div>
+                <p>Our <span class="sp">Proceedings B</span> study on guttation was also covered by <a href="https://ruvid.org/las-gotas-las-plantas-producen-la-noche-ricas-nutrientes-los-insectos-beneficiosos/" target="_blank" rel="noopener">RUVID</a>, <a href="https://www.agronewscomunitatvalenciana.com/las-gotas-que-las-plantas-producen-durante-la-noche-son-ricas-en-nutrientes-para-los-insectos" target="_blank" rel="noopener">Agronews Comunitat Valenciana</a>, <a href="https://www.sci.news/biology/plant-guttation-nutrient-rich-food-insects-08909.html" target="_blank" rel="noopener">Sci.News</a> and <a href="https://www.apevc.cat/2020/12/14/la-gutacio-de-les-plantes-proporciona-aliments-rics-en-nutrients-per-als-insectes/" target="_blank" rel="noopener">APEVC</a>. The droplets turned out to be rich in sugars and proteins, helped insects live longer and reproduce more, and roughly doubled the number of natural enemies on the plants.</p>
+              </div>
+            </li>
+            <li class="row">
+              <span class="date">Oct 2016</span>
+              <div>
+                <div class="src">El Periòdic</div>
+                <div class="t"><a href="https://www.elperiodic.com/castellon/doctorando-pablo-urbaneja-bernat-obtiene-galardon-mejor-presentacion-congreso-internacional-entomologia_469809" target="_blank" rel="noopener">El doctorando de la UJI Pablo Urbaneja Bernat obtiene el galardón a la mejor presentación en el Congreso Internacional de Entomología</a></div>
+                <p>Award for the best presentation by a doctoral student at the 2016 International Congress of Entomology, for a talk on how abiotic conditions change the interactions among three predators of the spider mite <span class="sp">Tetranychus urticae</span>.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="join">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="label">Join us</div>
+        <div>
+          <h2>Open to new people</h2>
+          <p class="intro">We are always glad to hear from prospective PhD students, postdocs and master's students interested in insect nutrition, chemical ecology or biological control. Send a short email with your CV and a few lines on what you would like to work on. Open positions will be posted here.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="label">Contact</div>
+        <div class="contact-card">
+          <div>
+            <div class="label">Email</div>
+            <div class="copy"><code id="mail">pablo.urbaneja@uji.es</code><button type="button" id="copyMail">Copy</button></div>
+          </div>
+          <div>
+            <div class="label">Online</div>
+            <div class="links" style="margin-top:.4rem">
+              <a href="https://www.linkedin.com/in/pablo-urbaneja-bernat-893588341" target="_blank" rel="noopener">LinkedIn</a>
+              <a href="https://scholar.google.com/citations?user=S5N-G8EAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+            </div>
+          </div>
+          <address class="addr">
+            <div class="label">Address</div>
+            Department of Biology, Biochemistry and Natural Sciences<br>
+            Universitat Jaume I<br>
+            Av. Vicent Sos Baynat s/n, 12071 Castelló de la Plana, Spain
+          </address>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="pi">
+  <div class="wrap pi">
+    <div class="pi-head">
+      <img class="pi-photo slot" src="pablo.jpg" alt="Portrait of Pablo Urbaneja-Bernat" data-initials="PU">
+      <div>
+        <div class="label">Principal investigator</div>
+        <h1>Pablo Urbaneja-Bernat</h1>
+        <p class="role">Ramón y Cajal Researcher and Group Leader, Universitat Jaume I</p>
+        <p class="role">Executive Committee (Treasurer), <a href="https://www.iobc-global.org/contacts.html" target="_blank" rel="noopener">International Organization for Biological Control (IOBC-Global)</a></p>
+        <div class="links">
+          <a href="https://scholar.google.com/citations?user=S5N-G8EAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+          <a href="https://www.linkedin.com/in/pablo-urbaneja-bernat-893588341" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://portalcientific.uji.es/investigadores/2223169/publicaciones" target="_blank" rel="noopener">UJI portal</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pi-grid">
+      <div class="bio">
+        <p>My research has always come back to one question. How do nutritional resources shape insect performance and, in the end, the interactions between plants, herbivores and natural enemies?</p>
+        <p>I first worked on it during my MSc with Alejandro Tena at IVIA, showing that sugar supplements can improve natural enemies and biological control. That work produced three papers and a patent. My PhD at Universitat Jaume I with Josep A. Jaques added environmental stress and multitrophic interactions in citrus mite communities, with research stays at CSIC-La Mayora and the University of Florida.</p>
+        <p>I chose each postdoc to learn something new. At ICIA I worked on classical biological control of an invasive citrus pest and found that honeydew can strongly boost parasitoid performance. In César Rodríguez-Saona's lab at Rutgers University I trained in chemical ecology and showed that plant guttation is a nutrient-rich food for insects. Back at IVIA, with eight months in South Africa, I combined parasitoid nutrition with invasive pest management. At IRTA I brought these strands together into my own line on plant-derived foods, insect nutrition and multitrophic interactions.</p>
+        <p>In 2025 I joined Universitat Jaume I as a Ramón y Cajal researcher and set up the NutriTrophic Lab, where insect nutritional ecology, chemical ecology and plant–insect interactions now meet. The group is funded by national, international and industry projects.</p>
+
+        <div class="metrics">
+          <div><b>41</b><span>peer-reviewed articles</span></div>
+          <div><b>2</b><span>patents</span></div>
+          <div><b>2</b><span>book chapters</span></div>
+          <div><b>60+</b><span>conference contributions</span></div>
+          <div><b>16</b><span>h-index</span></div>
+          <div><b>750+</b><span>citations</span></div>
+        </div>
+        <p class="metrics-note">Google Scholar, October 2026</p>
+      </div>
+
+      <div>
+        <div class="label">Career</div>
+        <ol class="timeline">
+          <li><div class="when">2025 – present</div>Ramón y Cajal Researcher and Group Leader<small>Universitat Jaume I, Spain</small></li>
+          <li>Postdoctoral researcher<small>IRTA, Spain</small></li>
+          <li>Postdoctoral researcher<small>IVIA, Spain, with a research stay in South Africa</small></li>
+          <li>Postdoctoral researcher<small>Rutgers University, USA</small></li>
+          <li>Postdoctoral researcher<small>ICIA, Spain</small></li>
+          <li>PhD<small>Universitat Jaume I, Spain</small></li>
+          <li>MSc research<small>IVIA, Spain</small></li>
+        </ol>
+        <div class="label" style="margin-top:1.8rem">Service</div>
+        <ul style="margin:.6rem 0 0;padding-left:1.1rem">
+          <li>Guest editor of a <span class="sp">Current Opinion in Insect Science</span> volume on plant-derived food sources in biological control (2024)</li>
+        </ul>
+        <div class="label" style="margin-top:1.8rem">Awards</div>
+        <ul style="margin:.6rem 0 0;padding-left:1.1rem">
+          <li>Best presentation by a doctoral student, International Congress of Entomology, Orlando (2016)</li>
+        </ul>
+      </div>
+    </div>
+    <a class="back" href="#top">Back to the lab</a>
+  </div>
+</div>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 NutriTrophic Lab · Universitat Jaume I</div>
+</footer>
+
+<script>
+(function(){
+  var b=document.body; b.classList.add('js');
+  var tab=document.querySelector('a.pi-tab');
+  function route(){
+    var h=location.hash.replace('#','');
+    var pi=(h==='pi');
+    b.classList.toggle('view-pi',pi);
+    if(pi){tab.setAttribute('aria-current','page');window.scrollTo(0,0);}
+    else{tab.removeAttribute('aria-current');
+      var el=h&&document.getElementById(h); if(el){el.scrollIntoView();} else if(h==='top'){window.scrollTo(0,0);} }
+  }
+  window.addEventListener('hashchange',route); route();
+  function swap(img){
+    if(img.getAttribute('data-fallback')==='remove'){var p=img.parentNode;img.remove();if(p&&(p.classList.contains('figs')||p.classList.contains('pfig'))&&!p.querySelector('img'))p.remove();return;}
+    var d=document.createElement('div');d.className=img.className.replace(/\bslot\b/,'').trim();
+    d.setAttribute('role','img');d.setAttribute('aria-label',img.alt||'');d.textContent=img.getAttribute('data-initials')||'';img.replaceWith(d);
+  }
+  document.querySelectorAll('img.slot').forEach(function(img){
+    if(img.loading!=='lazy'&&img.complete&&img.naturalWidth===0){swap(img);}else{img.addEventListener('error',function(){swap(img)});}
+  });
+  document.querySelectorAll('a.todo-link').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault()})});
+  document.getElementById('copyMail').addEventListener('click',function(){
+    var btn=this,el=document.getElementById('mail');
+    function done(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},1500)}
+    function fallback(){var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r);}
+    try{navigator.clipboard.writeText(el.textContent).then(done,fallback)}catch(e){fallback()}
+  });
+})();
+</script>
+
+</body>
+</html>
