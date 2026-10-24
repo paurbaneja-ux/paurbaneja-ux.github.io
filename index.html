@@ -89,7 +89,11 @@ section{padding-block:clamp(2.5rem,6vw,4.5rem);border-top:1px solid var(--line)}
 
 /* pillars */
 .lines{display:grid;gap:2.4rem}
-.line{display:grid;grid-template-columns:2.4rem minmax(0,1fr);gap:1rem;scroll-margin-top:5rem}
+.line{display:grid;grid-template-columns:2.4rem minmax(0,1fr) minmax(0,15rem);gap:1rem 1.6rem;scroll-margin-top:5rem}
+.pfig{grid-column:3;grid-row:1;margin:0;align-self:start}
+.pfig img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:2px;background:var(--surface)}
+.line>.subpillar{grid-column:2 / -1;margin-top:.4rem}
+.figs.bc-figs{grid-template-columns:repeat(4,minmax(0,1fr));gap:.6rem;margin-top:1.2rem}
 .line .num{font-family:var(--f-mono);font-size:.8rem;color:var(--leaf);border:1px solid var(--leaf);border-radius:50%;width:2.2rem;height:2.2rem;display:flex;align-items:center;justify-content:center}
 .line p{margin-top:.5rem;max-width:62ch}
 .line .key{margin-top:.6rem;font-size:.92rem;color:var(--muted)}
@@ -204,7 +208,13 @@ body.js:not(.view-pi) #pi{display:none}
 
 footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);font-size:.85rem}
 
+@media (max-width:1000px){
+  .line{grid-template-columns:2.4rem minmax(0,1fr)}
+  .pfig{grid-column:2;grid-row:auto;max-width:22rem}
+}
 @media (max-width:760px){
+  .line>.subpillar{grid-column:1 / -1}
+  .figs.bc-figs{grid-template-columns:repeat(2,minmax(0,1fr))}
   .sec-head,.sec-body,.pi-grid,.bc-grid{grid-template-columns:1fr}
   .sec-body>.content{grid-column:1}
   .figs{grid-template-columns:1fr}
@@ -275,6 +285,7 @@ footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);fo
                   </ul>
                 </div>
               </div>
+              <figure class="pfig"><img class="slot" src="img/pillar-1.jpg" alt="An insect at a guttation droplet on the tip of a leaf" width="720" height="720" loading="lazy" data-fallback="remove"></figure>
             </div>
             <div class="line" id="p2">
               <span class="num">2</span>
@@ -292,6 +303,7 @@ footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);fo
                   </ul>
                 </div>
               </div>
+              <figure class="pfig"><img class="slot" src="img/pillar-2.jpg" alt="Guttation droplets on young tomato plants in the greenhouse" width="720" height="720" loading="lazy" data-fallback="remove"></figure>
             </div>
             <div class="line" id="p3">
               <span class="num">3</span>
@@ -308,9 +320,17 @@ footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);fo
                     <li><a href="https://scholar.google.com/scholar?q=%22Salicylic+and+jasmonic+acid+crosstalk+manipulation+by+whiteflies+weakens+larval+parasitoid+recruitment%22" target="_blank" rel="noopener">Salicylic and jasmonic acid crosstalk manipulation by whiteflies weakens larval parasitoid recruitment</a><span><i>Journal of Experimental Botany</i>, 2026</span></li>
                   </ul>
                 </div>
+              </div>
+              <figure class="pfig"><img class="slot" src="img/pillar-3.jpg" alt="A small wasp visiting a flower" width="720" height="720" loading="lazy" data-fallback="remove"></figure>
                 <div class="subpillar" id="biocontrol">
                   <div class="subpillar-head"><span class="num">3.1</span><h4>Biological control</h4></div>
                   <p>Biological control is where our work on what insects eat, what they smell and how plants respond turns into tools for growers, often together with plant health services and biocontrol companies.</p>
+                  <div class="figs bc-figs">
+                    <img class="fig slot" src="img/biocontrol-1.jpg" alt="A predatory mirid bug next to coloured droplets on a leaf" width="800" height="600" loading="lazy" data-fallback="remove">
+                    <img class="fig slot" src="img/biocontrol-2.jpg" alt="A parasitoid wasp next to a mealybug" width="800" height="600" loading="lazy" data-fallback="remove">
+                    <img class="fig slot" src="img/biocontrol-3.jpg" alt="A ladybird on an aphid-infested shoot" width="800" height="600" loading="lazy" data-fallback="remove">
+                    <img class="fig slot" src="img/biocontrol-4.jpg" alt="An aphid colony on a leaf" width="800" height="600" loading="lazy" data-fallback="remove">
+                  </div>
                   <div class="bc-grid">
                     <div class="bc">
                       <div class="label">Spotted-wing drosophila</div>
@@ -330,13 +350,7 @@ footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);fo
                     </div>
                   </div>
                 </div>
-              </div>
             </div>
-          </div>
-          <div class="figs">
-            <img class="fig slot" src="img/research-1.jpg" alt="Research photo" data-fallback="remove">
-            <img class="fig slot" src="img/research-2.jpg" alt="Research photo" data-fallback="remove">
-            <img class="fig slot" src="img/research-3.jpg" alt="Research photo" data-fallback="remove">
           </div>
         </div>
       </div>
@@ -599,7 +613,7 @@ footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);fo
     <div class="wrap">
       <div class="sec-head">
         <div class="label">Team</div>
-        <div><h2>The group</h2>
+        <div><h2>The team</h2>
         <p class="intro">A small team in the Department of Biology, Biochemistry and Natural Sciences, working across the lab, the insectary and the greenhouse.</p></div>
       </div>
       <div class="sec-body">
@@ -644,7 +658,7 @@ footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);fo
         <div class="label">News &amp; outreach</div>
         <div>
           <h2>Our research beyond the journals</h2>
-          <p class="intro">Press coverage of our research, outreach talks and other news from the group.</p>
+          <p class="intro">Press coverage of our research, outreach talks and other news from the team.</p>
         </div>
       </div>
       <div class="sec-body">
@@ -824,7 +838,7 @@ footer{border-top:1px solid var(--line);padding-block:2rem;color:var(--muted);fo
   }
   window.addEventListener('hashchange',route); route();
   function swap(img){
-    if(img.getAttribute('data-fallback')==='remove'){var p=img.parentNode;img.remove();if(p&&p.classList.contains('figs')&&!p.querySelector('img'))p.remove();return;}
+    if(img.getAttribute('data-fallback')==='remove'){var p=img.parentNode;img.remove();if(p&&(p.classList.contains('figs')||p.classList.contains('pfig'))&&!p.querySelector('img'))p.remove();return;}
     var d=document.createElement('div');d.className=img.className.replace(/\bslot\b/,'').trim();
     d.setAttribute('role','img');d.setAttribute('aria-label',img.alt||'');d.textContent=img.getAttribute('data-initials')||'';img.replaceWith(d);
   }
